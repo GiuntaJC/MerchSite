@@ -6,7 +6,9 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      <NewMerchControl />
+      <div class="container">
+        <NewMerchControl />
+      </div>
     </React.Fragment>
   );
 }

@@ -17,20 +17,47 @@ function NewMerchForm(props) {
   return (
     <React.Fragment>
       <form onSubmit={handleNewMerchFormSubmission}>
-        <p>Name of merch</p>
-        <input type="text" name="name" placeholder="Name" />
-        <br />
-        <p>Description</p>
-        <input type="text" name="description" placeholder="Description" />
-        <br />
-        <p>Quantity</p>
-        <input type="number" name="quantity" />
-        <br />
-        <p>Price</p>
-        <input type="number" name="price" step="0.01" placeholder="$0.00" />
+        <div class="form-group">
+          <h4>Name of merch</h4>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            class="form-control"
+          />
+          <br />
+        </div>
+        <div class="form-group">
+          <h4>Description</h4>
+          <input
+            type="text"
+            name="description"
+            placeholder="Description"
+            class="form-control"
+          />
+          <br />
+        </div>
+        <div class="form-group">
+          <h4>Quantity</h4>
+          <input type="number" name="quantity" class="form-control" />
+          <br />
+        </div>
+        <div class="form-group">
+          <h4>Price</h4>
+          <input
+            type="number"
+            name="price"
+            step="0.01"
+            placeholder="$0.00"
+            class="form-control"
+          />
+        </div>
         <br />
 
-        <button type="submit">Submit</button>
+        <button class="btn btn-success" type="submit">
+          Submit
+        </button>
+        <hr />
       </form>
     </React.Fragment>
   );

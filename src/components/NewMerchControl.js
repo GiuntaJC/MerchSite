@@ -1,6 +1,7 @@
 import React from "react";
 import NewMerchForm from "./NewMerchForm";
 import MerchList from "./MerchList";
+import MerchDetail from "./MerchDetail";
 
 class NewMerchControl extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class NewMerchControl extends React.Component {
     this.state = {
       formVisibleOnPage: "merchList",
       masterMerchList: [],
+      selectedMerch: null,
     };
   }
 
@@ -19,9 +21,17 @@ class NewMerchControl extends React.Component {
     });
   };
 
+  handleChangingSelectedMerch = (id) => {
+    const selectedMerch = this.state.masterMerchList.filter(
+      (merch) => merch.id === id
+    )[0];
+    this.setState({ selectedMerch: selectedMerch });
+  };
+
   handleClick = (newState) => {
     this.setState(() => ({
       formVisibleOnPage: newState,
+      selectedMerch: null,
     }));
   };
 
@@ -29,7 +39,11 @@ class NewMerchControl extends React.Component {
     let currentlyVisibleState = null;
     let pageTitle = "addMerch";
     let buttonText = "";
-    if (this.state.formVisibleOnPage === "addMerch") {
+    if (this.state.selectedMerch != null) {
+      currentlyVisibleState = <MerchDetail merch={this.state.selectedMerch} />;
+      pageTitle = "merchList";
+      buttonText = "details page";
+    } else if (this.state.formVisibleOnPage === "addMerch") {
       currentlyVisibleState = (
         <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />
       );
@@ -37,7 +51,10 @@ class NewMerchControl extends React.Component {
       buttonText = "Return to Merch List";
     } else if (this.state.formVisibleOnPage === "merchList") {
       currentlyVisibleState = (
-        <MerchList merchList={this.state.masterMerchList} />
+        <MerchList
+          merchList={this.state.masterMerchList}
+          onMerchSelection={this.handleChangingSelectedMerch}
+        />
       );
       pageTitle = "addMerch";
       buttonText = "Add Merch";
@@ -45,10 +62,14 @@ class NewMerchControl extends React.Component {
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={() => this.handleClick(pageTitle)}>
+        {console.log(pageTitle)}
+        {console.log(currentlyVisibleState)}
+        <button
+          className="btn btn-primary"
+          onClick={() => this.handleClick(pageTitle)}
+        >
           {buttonText}
         </button>
-        {/* <button onClick={this.handleClickMerchList}>merchList</button> */}
       </React.Fragment>
     );
   }
