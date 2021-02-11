@@ -35,14 +35,29 @@ class NewMerchControl extends React.Component {
     }));
   };
 
+  handleDeletingMerch = (id) => {
+    const newMasterMerchList = this.state.masterMerchList.filter(
+      (merch) => merch.id !== id
+    );
+    this.setState({
+      masterMerchList: newMasterMerchList,
+      selectedMerch: null,
+    });
+  };
+
   render() {
     let currentlyVisibleState = null;
     let pageTitle = "addMerch";
     let buttonText = "";
     if (this.state.selectedMerch != null) {
-      currentlyVisibleState = <MerchDetail merch={this.state.selectedMerch} />;
+      currentlyVisibleState = (
+        <MerchDetail
+          merch={this.state.selectedMerch}
+          onClickingDelete={this.handleDeletingMerch}
+        />
+      );
       pageTitle = "merchList";
-      buttonText = "details page";
+      buttonText = "return to merch list";
     } else if (this.state.formVisibleOnPage === "addMerch") {
       currentlyVisibleState = (
         <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />
