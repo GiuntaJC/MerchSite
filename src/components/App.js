@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React from "react";
 import Header from "./Header";
 import NewMerchControl from "./NewMerchControl";
 
@@ -6,9 +6,11 @@ function App() {
   return (
     <React.Fragment>
       <Header />
-      <NewMerchControl/>
+      <div class="container">
+        <NewMerchControl />
+      </div>
     </React.Fragment>
-  )
+  );
 }
 
 export default App;

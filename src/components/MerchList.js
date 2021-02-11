@@ -3,19 +3,27 @@ import Merch from "./Merch";
 import PropTypes from "prop-types";
 
 function MerchList(props) {
-  return(
+  return (
     <React.Fragment>
-      <hr/>
-      {props.merchList.map((merch, index) => (
-        <Merch 
-        name={merch.name} 
-        description={merch.description} 
-        quantity={merch.quantity} 
-        key={index}
+      <h1>Merch List</h1>
+      <hr />
+      {props.merchList.map((merch) => (
+        <Merch
+          whenMerchSelected={props.onMerchSelection}
+          name={merch.name}
+          description={merch.description}
+          quantity={merch.quantity}
+          price={merch.price}
+          id={merch.id}
+          key={merch.id}
         />
       ))}
-      </React.Fragment>
+    </React.Fragment>
   );
 }
-MerchList.propTypes = { merchList: PropTypes.array };
+
+MerchList.propTypes = {
+  merchList: PropTypes.array,
+  onMerchSelection: PropTypes.func,
+};
 export default MerchList;
