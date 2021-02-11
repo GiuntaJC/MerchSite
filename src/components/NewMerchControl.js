@@ -96,6 +96,7 @@ class NewMerchControl extends React.Component {
     this.setState({ selectedMerch: selectedMerch });
   };
 
+  //Buy function, not implemented 
   // handleBuySelectedMerch = () => {
   //   const boughtMerch = this.state.selectedMerch; 
   //   // const editedMasterMerchList = 
