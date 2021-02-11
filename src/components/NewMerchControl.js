@@ -1,14 +1,15 @@
-import React from 'react';
-import NewMerchForm from './NewMerchForm';
-import MerchList from './MerchList'; 
+import React from "react";
+import NewMerchForm from "./NewMerchForm";
+import MerchList from "./MerchList";
+import MerchDetail from "./MerchDetail";
 
 class NewMerchControl extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: '',
-      masterMerchList: []
+      formVisibleOnPage: "merchList",
+      masterMerchList: [],
+      selectedMerch: null,
     };
   }
 
@@ -16,48 +17,89 @@ class NewMerchControl extends React.Component {
     const newMasterMerchList = this.state.masterMerchList.concat(newMerch);
     this.setState({
       masterMerchList: newMasterMerchList,
-      formVisibleOnPage: "merchList"
+      formVisibleOnPage: "merchList",
     });
   };
 
-  handleClickMerchList = () => {
-    this.setState( () => ({
-      formVisibleOnPage: "merchList"
+  handleChangingSelectedMerch = (id) => {
+    const selectedMerch = this.state.masterMerchList.filter(
+      (merch) => merch.id === id
+    )[0];
+    this.setState({ selectedMerch: selectedMerch });
+  };
+
+  handleClick = (newState) => {
+    this.setState(() => ({
+      formVisibleOnPage: newState,
+      selectedMerch: null,
     }));
   };
 
-  handleClickAddMerch = () => {
-    this.setState( () => ({
-      formVisibleOnPage: "addMerch"
-    }));
+  handleDeletingMerch = (id) => {
+    const newMasterMerchList = this.state.masterMerchList.filter(
+      (merch) => merch.id !== id
+    );
+    this.setState({
+      masterMerchList: newMasterMerchList,
+      selectedMerch: null,
+    });
   };
 
-  // handleClick = (newState) => {
-  //   this.setState(() => ({
-  //     formVisibleOnPage: newState
-  //   }));
-  // }
-
-  render(){
+  render() {
     let currentlyVisibleState = null;
-    let buttonText = null;
-    if (this.state.formVisibleOnPage === "addMerch") {
+    let pageTitle = "addMerch";
+    let buttonText = "";
+    if (this.state.selectedMerch != null) {
       currentlyVisibleState = (
-        <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList}/> 
+        <MerchDetail
+          merch={this.state.selectedMerch}
+          onClickingDelete={this.handleDeletingMerch}
+        />
       );
+      pageTitle = "merchList";
+      buttonText = "return to merch list";
+    } else if (this.state.formVisibleOnPage === "addMerch") {
+      currentlyVisibleState = (
+        <NewMerchForm onNewMerchCreation={this.handleAddingNewMerchToList} />
+      );
+      pageTitle = "merchList";
       buttonText = "Return to Merch List";
     } else if (this.state.formVisibleOnPage === "merchList") {
       currentlyVisibleState = (
-        <MerchList merchList={this.state.masterMerchList}/>
+        <MerchList
+          merchList={this.state.masterMerchList}
+          onMerchSelection={this.handleChangingSelectedMerch}
+        />
       );
-      buttonText = 'Add merch'; 
+      pageTitle = "addMerch";
+      buttonText = "Add Merch";
     }
-    return(
+    return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClickAddMerch}>Add Merch</button>
+        {console.log(pageTitle)}
+        {console.log(currentlyVisibleState)}
+        <button
+          className="btn btn-primary"
+          onClick={() => this.handleClick(pageTitle)}
+        >
+          {buttonText}
+        </button>
       </React.Fragment>
     );
   }
 }
+
+// handleClickMerchList = () => {
+//   this.setState(() => ({
+//     formVisibleOnPage: "merchList",
+//   }));
+// };
+
+// handleClickAddMerch = () => {
+//   this.setState(() => ({
+//     formVisibleOnPage: "addMerch",
+//   }));
+// };
+
 export default NewMerchControl;
